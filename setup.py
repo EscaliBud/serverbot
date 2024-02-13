@@ -26,14 +26,14 @@ bot = telebot.TeleBot(API_KEY)
 @bot.message_handler(commands=['start','help'])
 def help(message):
     msg = '''
-*Бот мониторинга Dolphin для _TrafficAngels_*
+*BOT FOR MANAGING IHK VPS SERVERS_*
 \-\-\-\-\-\-\-\-\-
-_*1\.*_ Использование дисков → /disk
-_*2\.*_ Использование CPU и RAM → /sysinfo
-_*3\.*_ Задержка сервера → /uptime
-_*4\.*_ Описание сервера → /server
-_*5\.*_ Помощь → /help
-_*6\.*_ О боте → /about'''
+_*1\.*_ DISK USAGE→ /disk
+_*2\.*_ CPU AND RAM USAGE → /sysinfo
+_*3\.*_ SERVER DELAY → /uptime
+_*4\.*_ SERVER INFORMATION → /server
+_*5\.*_ HELP → /help
+_*6\.*_ ABOUT BOT → /about'''
     bot.send_message(message.chat.id, msg, parse_mode='MarkdownV2')
 
 # make command function to chat if command receive
@@ -56,9 +56,9 @@ def disk(message):
     msg = '''
 *Использование дисков*
 \-\-\-\-\-\-\-\-\-
-_*Всего*_ \= {} GB
-_*Используется*_ \= {} GB  \({} %\)
-_*Доступно*_ \= {} GB'''.format(diskTotal,diskUsed,diskPercent,diskAvail)
+_*TOTAL*_ \= {} GB
+_*USED*_ \= {} GB  \({} %\)
+_*AVAILABLE*_ \= {} GB'''.format(diskTotal,diskUsed,diskPercent,diskAvail)
     bot.send_message(message.chat.id,msg, parse_mode='MarkdownV2')
 
 # cpu & ram (/sysinfo)
@@ -70,14 +70,14 @@ def sysinfo(message):
     ramFree = re.escape(str(int(psutil.virtual_memory().free/(1024*1024))))
     ramUsagePercent = re.escape(str(psutil.virtual_memory().percent))
     msg = '''
-*Использование CPU и RAM*
+*CPU AND RAM USAGE*
 \-\-\-\-\-\-\-\-\-
-_*Использование CPU*_ \= {} %
+_*CPU USAGE*_ \= {} %
 
-__Оперативная память__
-_*Всего*_ \= {} MB
-_*Используется*_ \= {} MB \({} %\)
-_*Доступно*_  \= {} MB'''.format(cpuUsage,ramTotal,ramUsage,ramUsagePercent,ramFree)
+__RAM__
+_*TOTAL*_ \= {} MB
+_*USED*_ \= {} MB \({} %\)
+_*AVAILABLE*_  \= {} MB'''.format(cpuUsage,ramTotal,ramUsage,ramUsagePercent,ramFree)
     bot.send_message(message.chat.id,msg, parse_mode='MarkdownV2')
 
 # uptime (/uptime)
@@ -94,11 +94,11 @@ def server(message):
     host = re.escape(str(subprocess.check_output(['hostname']).decode('UTF-8')))
     ipAddr = re.escape(str(subprocess.check_output(['hostname','-I']).decode('UTF-8')))
     msg ='''
-*Описание сервера*
+*SERVER DESCRIPTION*
 \-\-\-\-\-\-\-\-\-
-_*Операционная система*_ \= {}
-_*Имя системы*_ \= {} 
-_*IP адрес*_ \= {}'''.format(uname,host,ipAddr)
+_*OS*_ \= {}
+_*SYSTEM NAME*_ \= {} 
+_*IP ADRESS*_ \= {}'''.format(uname,host,ipAddr)
     bot.send_message(message.chat.id,msg, parse_mode='MarkdownV2')
 
 # server desc (/about)
@@ -109,12 +109,12 @@ def server(message):
     source = re.escape(str(config['main']['source']))
     commands = config['main']['commands']
     msg ='''
-*О боте*
+*ABOUT BOT*
 \-\-\-\-\-\-\-\-\-
-Автор: @{}
-Версия бота: {}
-Исходный код: {}
-Количество команд: {}'''.format(author,version,source,commands)
+OWNER: @{}
+VERSION: {}
+TELEGRAM CHANNEL: {}
+TOOLS: {}'''.format(author,version,source,commands)
     bot.send_message(message.chat.id,msg, parse_mode='MarkdownV2', disable_web_page_preview=True)
 
 # listen to telegram commands
